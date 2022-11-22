@@ -7,14 +7,15 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
 
+    - name: Select Xcode
+    - run: sudo xcode-select -switch /Applications/Xcode_13.4.1.app
+
+    - name: Build and test
+      run: xcodebuild clean build test -project EssentialFeed/EssentialFeed.xcodeproj -scheme "CI" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
